@@ -1,0 +1,5 @@
+.container
+  .row
+    .col-md-6
+      = bootstrap_form_tag do |f|
+        = f.search_field :search, append: link_to("Go", "#", class: "btn btn-default", id:"search_button"), hide_label: true, id: "search_form"
