@@ -1,0 +1,25 @@
+---
+pid: 6060
+config: !ruby/object:Puma::Configuration
+  options:
+    :min_threads: 0
+    :max_threads: 16
+    :quiet: true
+    :debug: false
+    :binds:
+    - tcp://0.0.0.0:3000
+    :workers: 0
+    :daemon: true
+    :worker_directory: "/git/sunkite"
+    :config_file: puma.rb
+    :mode: :http
+    :worker_timeout: 60
+    :worker_shutdown_timeout: 30
+    :environment: development
+    :pidfile: pids/puma.pid
+    :state: pids/puma.state
+    :redirect_stdout: 
+    :redirect_stderr: log/stderr.log
+    :redirect_append: true
+    :tag: Sun Kite
+    :control_auth_token: 89f1f5818893b363d4ea43cf48c99839
