@@ -21,12 +21,21 @@ class UserController < ApplicationController
 
       if action == 'get_images'
         q = "from:#{user} filter:images" if action == 'get_images'
-        response = client.search(q) if action == 'get_images'
+        response = client.search(q, {count: 200}) if action == 'get_images'
       end
 
       return response
-    rescue Twitter::Error::NotFound => e
-      return response = {"error": "NotFound"}
+    rescue Twitter::Error, Timeout::Error => e
+
+      if e.class.superclass.name == Twitter::Error
+        return {"error" => e }
+      elsif e.class == Timeout::Error
+        return {"error" => "Server is Busy"}
+      else
+        logger.debug e.class.inspect
+        return {"error" => e}
+      end
+
     end
   end
 
@@ -36,7 +45,7 @@ class UserController < ApplicationController
 
   def check_params
     if user_params[:user].nil?
-      render json: {"error": "NoParams"}, status: 403
+      render json: {"error" => "NoParams"}, status: 403
     end
   end
 end

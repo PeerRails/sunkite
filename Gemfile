@@ -11,7 +11,7 @@ gem 'jquery-rails'
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.3.4'
 gem 'bootstrap_form'
-gem "font-awesome-rails"
+gem "font-awesome-sass"
 
 gem 'omniauth'
 gem 'omniauth-twitter'
