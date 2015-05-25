@@ -30,14 +30,14 @@ class UserControllerTest < ActionController::TestCase
   test "should get user exception" do
     get :get_user, {user: 'gemificide'}
     body = JSON.parse(response.body)
-    assert_equal 'NotFound', body["error"]
+    assert_equal '404 Not Found', body["error"]["rate_limit"]["status"]
     assert_response :success
   end
 
   test "should get tweet exception" do
     get :get_tweets, {user: 'gemificide'}
     body = JSON.parse(response.body)
-    assert_equal 'NotFound', body["error"]
+    assert_equal '404 Not Found', body["error"]["rate_limit"]["status"]
     assert_response :success
   end
 
