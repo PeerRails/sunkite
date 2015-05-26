@@ -13,38 +13,6 @@ class UserController < ApplicationController
     render json: make_request(user_params[:user], 'get_images')
   end
 
-  def get_all_images_waht
-    loger = Logger.new 'debug.txt'
-    q = "from:#{user_params[:user]} filter:images"
-    opt = {}
-    length = 2
-    response = []
-    begin
-      until length == 0
-        tweets = client.search(q, opt).to_a
-        loger.debug tweets
-        if tweets != []
-          response += tweets
-          length = response.count
-          opt = {max_id: response.last.id}
-          loger.debug opt
-        end
-      end
-      render json: response
-    rescue Twitter::Error, Timeout::Error => e
-      if e.class == Twitter::Error::TooManyRequests
-        sleep e.rate_limit.reset_in + 1
-        retry
-      elsif e.class.superclass.name == Twitter::Error
-        error = {"error" => "Server is Busy"}
-        render json: error
-      else
-        error = {"error" => e}
-        render json: error
-      end
-    end
-  end
-
   private
   def make_request (user, action)
     timeline_opt = {trim_user: false, count: 100}
